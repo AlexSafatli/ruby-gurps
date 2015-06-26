@@ -1,6 +1,6 @@
 = gurps
 
-Description goes here.
+Built with love in my free time for a system that has made me love roleplaying.
 
 == Contributing to gurps
  

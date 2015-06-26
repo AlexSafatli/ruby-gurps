@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "gurps"
   gem.homepage = "http://github.com/AlexSafatli/gurps"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = "GURPS Character and System Logic in Ruby"
+  gem.description = "A Ruby gem for computing system-specific logic for the Generic Universal Roleplaying System (GURPS)"
   gem.email = "safatli@cs.dal.ca"
   gem.authors = ["Alex Safatli"]
   # dependencies defined in Gemfile
@@ -43,7 +43,6 @@ task :default => :test
 require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "gurps #{version}"
   rdoc.rdoc_files.include('README*')
