@@ -1,7 +1,12 @@
+require_relative 'param_accessor'
+
 module GURPS
   class Character
 
+    extend ParamAccessor
     attr_accessor :char_pts_cost, :name, :description
+    hash_accessor :basic_attributes, :strength, :dexterity, :intelligence, :health
+    hash_accessor :secondary_attributes, :will, :hp, :fp, :per, :basic_speed, :basic_move, :dodge
 
     def initialize(params)
       @name = params[:name]
@@ -18,7 +23,7 @@ module GURPS
         fp: params[:fp] || default_for(:fp),
         per: params[:per] || default_for(:per),
         basic_speed: params[:basic_speed] || default_for(:basic_speed),
-        basic_move: params[:basic_move] || default_for(:basic_move)
+        basic_move: params[:basic_move] || default_for(:basic_move),
         dodge: default_for(:dodge)
       }
       @advantages = Array.new
@@ -26,11 +31,6 @@ module GURPS
       @char_pts_cost = 0
       calculate_costs
     end
-
-    def strength() @basic_attributes[:strength] end
-    def dexterity() @basic_attributes[:dexterity] end
-    def intelligence() @basic_attributes[:intelligence] end
-    def health() @basic_attributes[:health] end
 
     def self.cost_of(attrib)
       case attrib
@@ -86,7 +86,9 @@ module GURPS
 
     def calculate_secondary_attributes
       @secondary_attributes.each do |attrib,val|
-        @char_pts_cost += (val - default_for(attrib)) * Character.cost_of(attrib)
+        unless attrib == :dodge
+          @char_pts_cost += (val - default_for(attrib)) * Character.cost_of(attrib)
+        end
       end
     end
 
@@ -100,3 +102,5 @@ end
 
 c = GURPS::Character.new name: "Alex", dx: 11, ht: 14
 puts c.char_pts_cost
+puts c.intelligence
+puts c.will
