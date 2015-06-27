@@ -13,12 +13,12 @@ module GURPS
         health: params[:ht] || 10
       }
       @secondary_attributes = {
-        will: params[:will] || default_will,
-        hp: params[:hp] || default_hp,
-        fp: params[:fp] || default_fp,
-        perception: params[:per] || default_per,
-        basic_speed: params[:basic_speed] || default_bs,
-        basic_move: params[:basic_move] || default_bm
+        will: params[:will] || default_for(:will),
+        hp: params[:hp] || default_for(:hp),
+        fp: params[:fp] || default_for(:fp),
+        per: params[:per] || default_for(:per),
+        basic_speed: params[:basic_speed] || default_for(:basic_speed),
+        basic_move: params[:basic_move] || default_for(:basic_move)
       }
       @advantages = Array.new
       @disadvantages = Array.new
@@ -41,17 +41,39 @@ module GURPS
         20
       when :health
         10
+      when :will
+        5
+      when :hp
+        2
+      when :fp
+        3
+      when :per
+        5
+      when :basic_speed
+        20
+      when :basic_move
+        5
+      end
+    end
+
+    def default_for(attrib)
+      case attrib
+      when :will
+        intelligence
+      when :per
+        intelligence
+      when :hp
+        strength
+      when :fp
+        health
+      when :basic_speed
+        (health + dexterity)/4.0
+      when :basic_move
+        (health + dexterity)/4
       end
     end
 
     private
-
-    def default_will() intelligence end
-    def default_hp() strength end
-    def default_fp() health end
-    def default_per() intelligence end
-    def default_bs() (health + dexterity)/4.0 end
-    def default_bm() default_bs.to_int end
 
     def calculate_basic_attributes
       @basic_attributes.each do |attrib,val|
@@ -59,18 +81,19 @@ module GURPS
       end
     end
 
-    #def calculate_secondary_attributes
-    #  @secondary_attributes.each do |attrib,val|
-        #@char_pts_cost += (val - )
-    #  end
-    #end
+    def calculate_secondary_attributes
+      @secondary_attributes.each do |attrib,val|
+        @char_pts_cost += (val - default_for(attrib)) * Character.cost_of(attrib)
+      end
+    end
 
     def calculate_costs
       calculate_basic_attributes
-      #calculate_secondary_attributes
+      calculate_secondary_attributes
     end
 
   end
 end
 
-GURPS::Character.new name: "Alex", dx: 11
+c = GURPS::Character.new name: "Alex", dx: 11, ht: 14
+puts c.char_pts_cost
