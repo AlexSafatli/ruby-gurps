@@ -77,6 +77,16 @@ module GURPS
       end
     end
 
+    def value_for(skill_name)
+      skill = @skills[@skills.index { |x| x.name == skill_name }] || nil # Make return default.
+      skill.relative_skill + @basic_attributes[skill.based_on]
+    end
+
+    def add_skill(skill)
+      @skills << skill
+      @char_pts += skill.char_pts
+    end
+
     private
 
     def calculate_basic_attributes
@@ -100,9 +110,3 @@ module GURPS
 
   end
 end
-
-c = GURPS::Character.new name: "Alex", dx: 11, ht: 14
-puts c.char_pts_cost
-puts c.intelligence
-puts c.will
-puts c.dodge
