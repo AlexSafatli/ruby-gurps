@@ -1,7 +1,7 @@
 module GURPS
   class Character
 
-    attr_accessor :char_pts_cost
+    attr_accessor :char_pts_cost, :name, :description
 
     def initialize(params)
       @name = params[:name]
@@ -19,6 +19,7 @@ module GURPS
         per: params[:per] || default_for(:per),
         basic_speed: params[:basic_speed] || default_for(:basic_speed),
         basic_move: params[:basic_move] || default_for(:basic_move)
+        dodge: default_for(:dodge)
       }
       @advantages = Array.new
       @disadvantages = Array.new
@@ -70,6 +71,8 @@ module GURPS
         (health + dexterity)/4.0
       when :basic_move
         (health + dexterity)/4
+      when :dodge
+        (health + dexterity)/4 + 3
       end
     end
 
