@@ -28,6 +28,7 @@ module GURPS
       }
       @advantages = Array.new
       @disadvantages = Array.new
+      @skills = Array.new
       @char_pts_cost = 0
       calculate_costs
     end
@@ -104,3 +105,4 @@ c = GURPS::Character.new name: "Alex", dx: 11, ht: 14
 puts c.char_pts_cost
 puts c.intelligence
 puts c.will
+puts c.dodge
