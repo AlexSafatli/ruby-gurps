@@ -1,6 +1,6 @@
 require 'gurps/character'
 require 'gurps/skill'
-require 'gurps/statblocks'
+require 'gurps/statblocks/renderer'
 
 # Inject rendering function to character.
 class GURPS::Character
