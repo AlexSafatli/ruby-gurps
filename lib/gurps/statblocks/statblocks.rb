@@ -1,0 +1,1 @@
+require 'gurps/statblocks/renderer'
