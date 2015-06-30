@@ -2,14 +2,18 @@
 
 <body>
 
-<p><strong><%= name %></strong></p>
-<p><%= gender %> <%= race %></p>
+<strong><%= name %></strong><br />
+<% if gender %><%= gender %> <% end %><%= race %> <%= job %><br />
 
 <hr />
 <strong>Statistics</strong>
 <hr />
 
-<strong>ST</strong> <%= strength %>, <strong>DX</strong> <%= dexterity %>, <strong>IQ</strong> <%= intelligence %>, <strong>HT</strong> <%= health %>
+<strong>ST</strong> <%= strength %>, <strong>DX</strong> <%= dexterity %>, <strong>IQ</strong> <%= intelligence %>, <strong>HT</strong> <%= health %><br />
+
+<strong>HP</strong> <%= hp %>, <strong>FP</strong> <%= fp %>, <strong>Will</strong> <%= will %>, <strong>Per</strong> <%= per %><br /><br />
+
+<strong>Basic Speed</strong> <%= basic_speed %>, <strong>Basic Move</strong> <%= basic_move %>, <strong>Dodge</strong> <%= dodge %>
 
 </body>
 

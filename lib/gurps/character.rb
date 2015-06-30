@@ -4,14 +4,15 @@ module GURPS
   class Character
 
     extend ParamAccessor
-    attr_accessor :char_pts_cost, :name, :gender, :race, :description
+    attr_accessor :char_pts_cost, :name, :gender, :race, :job, :description
     hash_accessor :basic_attributes, :strength, :dexterity, :intelligence, :health
     hash_accessor :secondary_attributes, :will, :hp, :fp, :per, :basic_speed, :basic_move, :dodge
 
     def initialize(params)
       @name = params[:name] || '<No Name>'
-      @gender = params[:gender] || '<No Gender>'
-      @race = params[:race].downcase || 'human'
+      @gender = params[:gender]
+      @race = params[:race] || 'Human'
+      @job = params[:job] || 'Commoner'
       @description = params[:description]
       @basic_attributes = {
         strength: params[:st] || 10,
