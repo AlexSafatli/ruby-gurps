@@ -1,4 +1,4 @@
-require_relative 'param_accessor'
+require 'gurps/param_accessor'
 
 module GURPS
   class Character

@@ -1,2 +1,1 @@
-module GURPS
-end
+require 'gurps/system'
