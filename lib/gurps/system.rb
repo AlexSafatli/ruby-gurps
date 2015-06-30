@@ -6,6 +6,3 @@ require 'gurps/statblocks/renderer'
 class GURPS::Character
   include GURPS::Statblocks::Renderer
 end
-
-
-
