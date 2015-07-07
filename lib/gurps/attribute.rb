@@ -14,7 +14,7 @@ module GURPS
   class BasicAttribute < Attribute
 
     def initialize(params)
-      params[:default] = 10 
+      params[:default] = 10
       super params
     end
 

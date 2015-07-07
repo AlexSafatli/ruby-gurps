@@ -1,4 +1,5 @@
 require 'gurps/param_accessor'
+require 'gurps/attribute'
 
 module GURPS
   class Character
