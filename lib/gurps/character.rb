@@ -16,69 +16,25 @@ module GURPS
       @job = params[:job] || 'Commoner'
       @description = params[:description]
       @basic_attributes = {
-        strength: params[:st] || 10,
-        dexterity: params[:dx] || 10,
-        intelligence: params[:iq] || 10,
-        health: params[:ht] || 10
+        strength: ST(value: params[:st]),
+        dexterity: DX(value: params[:dx]),
+        intelligence: IQ(value: params[:iq]),
+        health: HT(value: params[:ht])
       }
       @secondary_attributes = {
-        will: params[:will] || default_for(:will),
-        hp: params[:hp] || default_for(:hp),
-        fp: params[:fp] || default_for(:fp),
-        per: params[:per] || default_for(:per),
-        basic_speed: params[:basic_speed] || default_for(:basic_speed),
-        basic_move: params[:basic_move] || default_for(:basic_move),
-        dodge: default_for(:dodge)
+        will: Will(value: params[:will], based_on: intelligence),
+        hp: HP(value: params[:hp], based_on: strength),
+        fp: FP(value: params[:fp], based_on: health),
+        per: Per(value: params[:per], based_on: intelligence),
+        basic_speed: BS(value: params[:basic_speed], default: (health + dexterity)/4.0),
+        basic_move: BM(value: params[:basic_move], default: (health + dexterity)/4),
+        dodge: Dodge(default: (health + dexterity)/4 + 3)
       }
       @advantages = Array.new
       @disadvantages = Array.new
       @skills = Array.new
       @char_pts_cost = 0
       calculate_costs
-    end
-
-    def self.cost_of(attrib)
-      case attrib
-      when :strength
-        10
-      when :dexterity
-        20
-      when :intelligence
-        20
-      when :health
-        10
-      when :will
-        5
-      when :hp
-        2
-      when :fp
-        3
-      when :per
-        5
-      when :basic_speed
-        20
-      when :basic_move
-        5
-      end
-    end
-
-    def default_for(attrib)
-      case attrib
-      when :will
-        intelligence
-      when :per
-        intelligence
-      when :hp
-        strength
-      when :fp
-        health
-      when :basic_speed
-        (health + dexterity)/4.0
-      when :basic_move
-        (health + dexterity)/4
-      when :dodge
-        (health + dexterity)/4 + 3
-      end
     end
 
     def value_for(skill_name)
@@ -95,14 +51,14 @@ module GURPS
 
     def calculate_basic_attributes
       @basic_attributes.each do |attrib,val|
-        @char_pts_cost += (val-10) * Character.cost_of(attrib)
+        @char_pts_cost += attrib.cost
       end
     end
 
     def calculate_secondary_attributes
       @secondary_attributes.each do |attrib,val|
         unless attrib == :dodge
-          @char_pts_cost += (val - default_for(attrib)) * Character.cost_of(attrib)
+          @char_pts_cost += attrib.cost
         end
       end
     end
