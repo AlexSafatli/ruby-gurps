@@ -29,5 +29,13 @@ module GURPS
       @level * @cost_per_level
     end
 
+    def +(other)
+      self.value + other.value
+    end
+
+    def to_s
+      value.to_s
+    end
+
   end
 end

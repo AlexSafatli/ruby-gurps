@@ -4,6 +4,7 @@ require 'gurps/attribute'
 module GURPS
   class Character
 
+    include AttributeShorthands
     extend ParamAccessor
     attr_accessor :char_pts_cost, :name, :gender, :race, :job, :description
     hash_accessor :basic_attributes, :strength, :dexterity, :intelligence, :health
@@ -50,14 +51,14 @@ module GURPS
     private
 
     def calculate_basic_attributes
-      @basic_attributes.each do |attrib,val|
+      @basic_attributes.each do |sym,attrib|
         @char_pts_cost += attrib.cost
       end
     end
 
     def calculate_secondary_attributes
-      @secondary_attributes.each do |attrib,val|
-        unless attrib == :dodge
+      @secondary_attributes.each do |sym,attrib|
+        unless sym == :dodge
           @char_pts_cost += attrib.cost
         end
       end
