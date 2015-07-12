@@ -34,83 +34,93 @@ module GURPS
 
   module AttributeShorthands
 
-    def ST opts={}
+    def ST value, opts={}
       BasicAttribute.new opts.update ({ 
         name: "Strength",
         shortened_to: "ST",
-        cost_per_level: 10
+        cost_per_level: 10,
+        value: value || opts[:value]
       })
     end
 
-    def DX opts={}
+    def DX value, opts={}
       BasicAttribute.new opts.update ({ 
         name: "Dexterity",
         shortened_to: "DX",
-        cost_per_level: 20
+        cost_per_level: 20,
+        value: value || opts[:value]
       })
     end
 
-    def IQ opts={}
+    def IQ value, opts={}
       BasicAttribute.new opts.update ({ 
         name: "Intelligence",
         shortened_to: "IQ",
-        cost_per_level: 20
+        cost_per_level: 20,
+        value: value || opts[:value]
       })
     end
 
-    def HT opts={}
+    def HT value, opts={}
       BasicAttribute.new opts.update ({ 
         name: "Health",
         shortened_to: "HT",
-        cost_per_level: 10
+        cost_per_level: 10,
+        value: value || opts[:value]
       })
     end
 
-    def Will opts={}
+    def Will value, opts={}
       SecondaryAttribute.new opts.update ({ 
         name: "Will",
         shortened_to: "Will",
-        cost_per_level: 5
+        cost_per_level: 5,
+        value: value || opts[:value]
       })
     end
 
-    def HP opts={}
+    def HP value, opts={}
       SecondaryAttribute.new opts.update ({ 
         name: "Hit Points",
         shortened_to: "HP",
-        cost_per_level: 2
+        cost_per_level: 2,
+        value: value || opts[:value]
       })
     end
 
-    def FP opts={}
+    def FP value, opts={}
       SecondaryAttribute.new opts.update ({ 
         name: "Fatigue Points",
         shortened_to: "FP",
-        cost_per_level: 3
+        cost_per_level: 3,
+        value: value || opts[:value]
       })
     end
 
-    def Per opts={}
+    def Per value, opts={}
       SecondaryAttribute.new opts.update ({ 
         name: "Perception",
         shortened_to: "Per",
-        cost_per_level: 5
+        cost_per_level: 5,
+        value: value || opts[:value]
       })
     end
 
-    def BS opts={}
+    def BS value, opts={}
       SecondaryAttribute.new opts.update ({ 
         name: "Basic Speed",
         shortened_to: "BS",
-        cost_per_level: 20
+        cost_per_level: 20,
+        value: value || opts[:value]
       })
     end
 
-    def BM opts={}
+    def BM value, opts={}
       SecondaryAttribute.new opts.update ({ 
         name: "Basic Move",
         shortened_to: "BM",
-        cost_per_level: 5
+        cost_per_level: 5,
+        value: value || opts[:value]
       })
     end
 

@@ -17,18 +17,18 @@ module GURPS
       @job = params[:job] || 'Commoner'
       @description = params[:description]
       @basic_attributes = {
-        strength: ST(value: params[:st]),
-        dexterity: DX(value: params[:dx]),
-        intelligence: IQ(value: params[:iq]),
-        health: HT(value: params[:ht])
+        strength: ST(params[:st]),
+        dexterity: DX(params[:dx]),
+        intelligence: IQ(params[:iq]),
+        health: HT(params[:ht])
       }
       @secondary_attributes = {
-        will: Will(value: params[:will], based_on: intelligence),
-        hp: HP(value: params[:hp], based_on: strength),
-        fp: FP(value: params[:fp], based_on: health),
-        per: Per(value: params[:per], based_on: intelligence),
-        basic_speed: BS(value: params[:basic_speed], default: (health + dexterity)/4.0),
-        basic_move: BM(value: params[:basic_move], default: (health + dexterity)/4),
+        will: Will(params[:will], based_on: intelligence),
+        hp: HP(params[:hp], based_on: strength),
+        fp: FP(params[:fp], based_on: health),
+        per: Per(params[:per], based_on: intelligence),
+        basic_speed: BS(params[:basic_speed], default: (health + dexterity)/4.0),
+        basic_move: BM(params[:basic_move], default: (health + dexterity)/4),
         dodge: Dodge(default: (health + dexterity)/4 + 3)
       }
       @advantages = Array.new
