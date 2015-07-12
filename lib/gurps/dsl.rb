@@ -8,7 +8,7 @@ module GURPS
 
   module CharacterDSL
 
-    # Domain Specific Language
+    # Domain Specific Language for Character Creation
 
     def self.define &block
       proxy = CharacterDSLDefinitionProxy.new
