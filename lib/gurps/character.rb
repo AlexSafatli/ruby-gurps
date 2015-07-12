@@ -6,7 +6,7 @@ module GURPS
 
     include AttributeShorthands
     extend ParamAccessor
-    attr_accessor :char_pts_cost, :name, :gender, :race, :job, :description
+    attr_accessor :name, :gender, :race, :job, :description, :templates
     hash_accessor :basic_attributes, :strength, :dexterity, :intelligence, :health
     hash_accessor :secondary_attributes, :will, :hp, :fp, :per, :basic_speed, :basic_move, :dodge
 
@@ -31,11 +31,11 @@ module GURPS
         basic_move: BM(params[:basic_move], default: (health + dexterity)/4),
         dodge: Dodge(default: (health + dexterity)/4 + 3)
       }
+      @templates = Array.new
       @advantages = Array.new
       @disadvantages = Array.new
       @skills = Array.new
       @char_pts_cost = 0
-      calculate_costs
     end
 
     def value_for(skill_name)
@@ -46,6 +46,11 @@ module GURPS
     def add_skill(skill)
       @skills << skill
       @char_pts += skill.char_pts
+    end
+
+    def cost
+      calculate_costs
+      @char_pts_cost
     end
 
     private
