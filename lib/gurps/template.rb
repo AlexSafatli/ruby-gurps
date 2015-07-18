@@ -41,4 +41,12 @@ module GURPS
 
   end
 
+  module TemplateShorthands
+
+    # @todo Fill this in.
+    def template
+    end
+
+  end
+
 end

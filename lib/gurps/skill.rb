@@ -1,6 +1,7 @@
 module GURPS
   class Skill
-    attr_accessor :name, :description, :based_on, :difficulty, :relative_skill, :char_pts
+    attr_accessor :name, :description, :based_on, :difficulty, :relative_skill,\
+     :char_pts
     def initialize(params)
       @name = params[:name]
       @description = params[:description]
@@ -12,7 +13,7 @@ module GURPS
       else
         raise 'Relative skill and character points both nil.'
       end
-      if @char_pts.nil? 
+      if @char_pts.nil?
         calculate_costs
       end
       if @relative_skill.nil?
