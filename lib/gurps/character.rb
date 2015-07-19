@@ -5,6 +5,7 @@ module GURPS
   class Character
 
     include AttributeShorthands
+    extend ParamAccessor
     attr_accessor :name, :gender, :race, :job, :description, :templates
     hash_accessor :basic_attributes, :strength, :dexterity, :intelligence, :health
     hash_accessor :secondary_attributes, :will, :hp, :fp, :per, :basic_speed, :basic_move, :dodge
@@ -37,14 +38,25 @@ module GURPS
       @char_pts_cost = 0
     end
 
-    def value_for(property_name)
-      if @basic_attributes.has_key? property_name
-        @basic_attributes[property_name].value
-      elsif @secondary_attributes.has_key? property_name
-        @secondary_attributes[property_name].value
+    def get_property(property_name)
+      property_name = property_name.downcase if property_name.methods.include? :downcase
+      property_sym = property_name.to_sym
+      if @basic_attributes.has_key?(property_name) || @basic_attributes.has_key?(property_sym)
+        @basic_attributes[property_name] || @basic_attributes[property_sym]
+      elsif @secondary_attributes.has_key?(property_name) || @secondary_attributes.has_key?(property_sym)
+        @secondary_attributes[property_name] || @secondary_attributes[property_sym]
       else
-        skill = @skills[@skills.index { |x| x.name == property_name }] || nil # Make return default.
-        skill.relative_skill + @basic_attributes[skill.based_on].value if skill
+        @skills[@skills.index { |x| x.name.downcase == property_name }] || nil # Make return default.
+      end      
+    end
+
+    def value_for(property_name)
+      prop = get_property property_name
+      return unless prop
+      unless prop.methods.include? :relative_skill
+        prop.value
+      else # is a skill
+        prop.relative_skill + @basic_attributes[prop.based_on].value
       end
     end
 
