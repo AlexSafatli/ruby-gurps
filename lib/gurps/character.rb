@@ -5,7 +5,6 @@ module GURPS
   class Character
 
     include AttributeShorthands
-    extend ParamAccessor
     attr_accessor :name, :gender, :race, :job, :description, :templates
     hash_accessor :basic_attributes, :strength, :dexterity, :intelligence, :health
     hash_accessor :secondary_attributes, :will, :hp, :fp, :per, :basic_speed, :basic_move, :dodge
@@ -38,14 +37,19 @@ module GURPS
       @char_pts_cost = 0
     end
 
-    def value_for(skill_name)
-      skill = @skills[@skills.index { |x| x.name == skill_name }] || nil # Make return default.
-      skill.relative_skill + @basic_attributes[skill.based_on]
+    def value_for(property_name)
+      if @basic_attributes.has_key? property_name
+        @basic_attributes[property_name].value
+      elsif @secondary_attributes.has_key? property_name
+        @secondary_attributes[property_name].value
+      else
+        skill = @skills[@skills.index { |x| x.name == property_name }] || nil # Make return default.
+        skill.relative_skill + @basic_attributes[skill.based_on].value if skill
+      end
     end
 
     def add_skill(skill)
       @skills << skill
-      @char_pts += skill.char_pts
     end
 
     def cost
@@ -69,9 +73,14 @@ module GURPS
       end
     end
 
+    def calculate_skills
+      @skills.each { |s| @char_pts_cost += s.char_pts }
+    end
+
     def calculate_costs
       calculate_basic_attributes
       calculate_secondary_attributes
+      calculate_skills
     end
 
   end
