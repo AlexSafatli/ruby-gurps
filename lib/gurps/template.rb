@@ -45,7 +45,7 @@ module GURPS
 
     # @todo Fill this in.
     def template templ_name
-      # need to find a template by this name and "link it"
+      send templ_name
     end
 
   end
