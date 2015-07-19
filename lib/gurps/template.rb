@@ -44,7 +44,8 @@ module GURPS
   module TemplateShorthands
 
     # @todo Fill this in.
-    def template
+    def template templ_name
+      # need to find a template by this name and "link it"
     end
 
   end
