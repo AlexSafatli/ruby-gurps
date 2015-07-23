@@ -1,5 +1,6 @@
 require 'gurps/attribute'
 require 'gurps/template'
+require 'gurps/character'
 
 module GURPS
 
@@ -14,6 +15,7 @@ module GURPS
 
     def self.define &block
       proxy = CharacterDSLDefinitionProxy.new
+      character = Character.new
       proxy.instance_eval(&block)
     end
 
