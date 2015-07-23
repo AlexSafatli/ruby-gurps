@@ -32,103 +32,157 @@ module GURPS
 
   end
 
-  module AttributeShorthands
+  module AttributeHandlers
 
-    def ST value, opts={}
-      BasicAttribute.new opts.update ({ 
+    def strength value=nil, opts={}
+      BasicAttribute.new ({ 
         name: "Strength",
         shortened_to: "ST",
         cost_per_level: 10,
-        value: value || opts[:value]
+        value: @strength
       })
     end
 
-    def DX value, opts={}
-      BasicAttribute.new opts.update ({ 
+    def dexterity value=nil, opts={}
+      BasicAttribute.new ({ 
         name: "Dexterity",
         shortened_to: "DX",
         cost_per_level: 20,
-        value: value || opts[:value]
+        value: @dexterity
       })
     end
 
-    def IQ value, opts={}
-      BasicAttribute.new opts.update ({ 
+    def intelligence value=nil, opts={}
+      BasicAttribute.new ({ 
         name: "Intelligence",
         shortened_to: "IQ",
         cost_per_level: 20,
-        value: value || opts[:value]
+        value: @intelligence
       })
     end
 
-    def HT value, opts={}
-      BasicAttribute.new opts.update ({ 
+    def health value=nil, opts={}
+      BasicAttribute.new ({ 
         name: "Health",
         shortened_to: "HT",
         cost_per_level: 10,
-        value: value || opts[:value]
+        value: @health
       })
     end
 
-    def Will value, opts={}
-      SecondaryAttribute.new opts.update ({ 
+    def will
+      SecondaryAttribute.new ({ 
         name: "Will",
         shortened_to: "Will",
         cost_per_level: 5,
-        value: value || opts[:value]
+        value: @will,
+        based_on: intelligence
       })
     end
 
-    def HP value, opts={}
-      SecondaryAttribute.new opts.update ({ 
+    def hp
+      SecondaryAttribute.new ({ 
         name: "Hit Points",
         shortened_to: "HP",
         cost_per_level: 2,
-        value: value || opts[:value]
+        value: @hp,
+        based_on: strength
       })
     end
 
-    def FP value, opts={}
-      SecondaryAttribute.new opts.update ({ 
+    def fp
+      SecondaryAttribute.new ({ 
         name: "Fatigue Points",
         shortened_to: "FP",
         cost_per_level: 3,
-        value: value || opts[:value]
+        value: @fp,
+        based_on: health
       })
     end
 
-    def Per value, opts={}
-      SecondaryAttribute.new opts.update ({ 
+    def perception
+      SecondaryAttribute.new ({ 
         name: "Perception",
         shortened_to: "Per",
         cost_per_level: 5,
-        value: value || opts[:value]
+        value: @perception,
+        based_on: intelligence
       })
     end
 
-    def BS value, opts={}
-      SecondaryAttribute.new opts.update ({ 
+    def basic_speed
+      SecondaryAttribute.new ({ 
         name: "Basic Speed",
         shortened_to: "BS",
         cost_per_level: 20,
-        value: value || opts[:value]
+        value: @basic_speed,
+        default: (health + dexterity)/4.0
       })
     end
 
-    def BM value, opts={}
-      SecondaryAttribute.new opts.update ({ 
+    def basic_move
+      SecondaryAttribute.new ({ 
         name: "Basic Move",
         shortened_to: "BM",
         cost_per_level: 5,
-        value: value || opts[:value]
+        value: @basic_move,
+        default: (health + dexterity)/4
       })
     end
 
-    def Dodge opts={}
-      SecondaryAttribute.new opts.update ({ 
-        name: "Dodge"
+    def dodge
+      SecondaryAttribute.new ({ 
+        name: "Dodge",
+        default: (health + dexterity)/4 + 3
       })
     end  
+
+  end
+
+  module AttributeShorthands
+
+    def ST val
+      @strength = val
+    end
+
+    def DX val
+      @dexterity = val
+    end
+
+    def IQ val
+      @intelligence = val
+    end
+
+    def HT val
+      @health = val
+    end
+
+    def Will val
+      @will = val
+    end
+
+    def HP val
+      @hp = val
+    end
+
+    def FP val
+      @fp = val
+    end
+
+    def Per val
+      @perception = val
+    end
+
+    def BS val
+      @basic_speed = val
+    end
+
+    def BM val
+      @basic_move = val
+    end
+
+    def Dodge
+    end
 
   end
 

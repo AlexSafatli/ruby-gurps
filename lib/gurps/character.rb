@@ -4,11 +4,9 @@ require 'gurps/attribute'
 module GURPS
   class Character
 
-    include AttributeShorthands
-    extend ParamAccessor
+    include AttributeHandlers
+
     attr_accessor :name, :gender, :race, :job, :description, :templates
-    hash_accessor :basic_attributes, :strength, :dexterity, :intelligence, :health
-    hash_accessor :secondary_attributes, :will, :hp, :fp, :per, :basic_speed, :basic_move, :dodge
 
     def initialize(params)
       @name = params[:name] || '<No Name>'
@@ -16,21 +14,16 @@ module GURPS
       @race = params[:race] || 'Human'
       @job = params[:job] || 'Commoner'
       @description = params[:description]
-      @basic_attributes = {
-        strength: ST(params[:st]),
-        dexterity: DX(params[:dx]),
-        intelligence: IQ(params[:iq]),
-        health: HT(params[:ht])
-      }
-      @secondary_attributes = {
-        will: Will(params[:will], based_on: intelligence),
-        hp: HP(params[:hp], based_on: strength),
-        fp: FP(params[:fp], based_on: health),
-        per: Per(params[:per], based_on: intelligence),
-        basic_speed: BS(params[:basic_speed], default: (health + dexterity)/4.0),
-        basic_move: BM(params[:basic_move], default: (health + dexterity)/4),
-        dodge: Dodge(default: (health + dexterity)/4 + 3)
-      }
+      @strength = params[:st]
+      @dexterity = params[:dx]
+      @intelligence = params[:iq]
+      @health = params[:ht]
+      @will = params[:will]
+      @hp = params[:hp]
+      @fp = params[:fp]
+      @perception = params[:per]
+      @basic_speed = params[:basic_speed]
+      @basic_move = params[:basic_move]
       @templates = Array.new
       @advantages = Array.new
       @disadvantages = Array.new

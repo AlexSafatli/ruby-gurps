@@ -4,9 +4,11 @@ require 'gurps/character'
 
 module GURPS
 
-  class CharacterDSLDefinitionProxy
+  class CharacterDSLDefinitionProxy < Character
+    
     include AttributeShorthands
     include TemplateShorthands
+
   end
 
   module CharacterDSL
@@ -15,7 +17,6 @@ module GURPS
 
     def self.define &block
       proxy = CharacterDSLDefinitionProxy.new
-      character = Character.new
       proxy.instance_eval(&block)
     end
 
