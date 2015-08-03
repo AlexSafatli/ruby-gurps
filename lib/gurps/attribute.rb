@@ -34,7 +34,7 @@ module GURPS
 
   module AttributeHandlers
 
-    def strength value=nil, opts={}
+    def strength
       BasicAttribute.new ({ 
         name: "Strength",
         shortened_to: "ST",
@@ -43,7 +43,7 @@ module GURPS
       })
     end
 
-    def dexterity value=nil, opts={}
+    def dexterity
       BasicAttribute.new ({ 
         name: "Dexterity",
         shortened_to: "DX",
@@ -52,7 +52,7 @@ module GURPS
       })
     end
 
-    def intelligence value=nil, opts={}
+    def intelligence
       BasicAttribute.new ({ 
         name: "Intelligence",
         shortened_to: "IQ",
@@ -61,7 +61,7 @@ module GURPS
       })
     end
 
-    def health value=nil, opts={}
+    def health
       BasicAttribute.new ({ 
         name: "Health",
         shortened_to: "HT",
@@ -181,7 +181,7 @@ module GURPS
       @basic_move = val
     end
 
-    def Dodge
+    def Dodge val
     end
 
   end

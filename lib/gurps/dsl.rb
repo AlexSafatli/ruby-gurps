@@ -4,22 +4,27 @@ require 'gurps/character'
 
 module GURPS
 
-  class CharacterDSLDefinitionProxy < Character
+  class CharacterDSLProxy < Character
     
     include AttributeShorthands
     include TemplateShorthands
 
   end
 
-  module CharacterDSL
+  module Characters
 
     # Domain Specific Language for Character Creation
 
-    def self.define &block
-      proxy = CharacterDSLDefinitionProxy.new
-      proxy.instance_eval(&block)
+    def self.make &block
+      @character = CharacterDSLProxy.new
+      @character.instance_eval(&block)
+      @character
     end
 
+  end
+
+  def self.character &block
+    Characters.make &block
   end
 
 end

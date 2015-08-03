@@ -8,7 +8,7 @@ module GURPS
 
     attr_accessor :name, :gender, :race, :job, :description, :templates
 
-    def initialize(params)
+    def initialize(params={})
       @name = params[:name] || '<No Name>'
       @gender = params[:gender]
       @race = params[:race] || 'Human'
@@ -31,15 +31,34 @@ module GURPS
       @char_pts_cost = 0
     end
 
+    def basic_attributes
+      {
+        strength: strength,
+        dexterity: dexterity,
+        intelligence: intelligence,
+        health: health
+      }
+    end
+
+    def secondary_attributes
+      {
+        will: will,
+        hp: hp,
+        fp: fp,
+        perception: perception
+      }
+    end
+
     def get_property(property_name)
       property_name = property_name.downcase if property_name.methods.include? :downcase
       property_sym = property_name.to_sym
-      if @basic_attributes.has_key?(property_name) || @basic_attributes.has_key?(property_sym)
-        @basic_attributes[property_name] || @basic_attributes[property_sym]
-      elsif @secondary_attributes.has_key?(property_name) || @secondary_attributes.has_key?(property_sym)
-        @secondary_attributes[property_name] || @secondary_attributes[property_sym]
+      if basic_attributes.has_key?(property_name) || basic_attributes.has_key?(property_sym)
+        basic_attributes[property_name] || basic_attributes[property_sym]
+      elsif secondary_attributes.has_key?(property_name) || secondary_attributes.has_key?(property_sym)
+        secondary_attributes[property_name] || secondary_attributes[property_sym]
       else
-        @skills[@skills.index { |x| x.name.downcase == property_name }] || nil # Make return default.
+        skill_index = @skills.index { |x| x.name.downcase == property_name }
+        return @skills[skill_index] if skill_index
       end      
     end
 
@@ -49,7 +68,7 @@ module GURPS
       unless prop.methods.include? :relative_skill
         prop.value
       else # is a skill
-        prop.relative_skill + @basic_attributes[prop.based_on].value
+        prop.relative_skill + basic_attributes[prop.based_on].value
       end
     end
 
@@ -65,13 +84,13 @@ module GURPS
     private
 
     def calculate_basic_attributes
-      @basic_attributes.each do |sym,attrib|
+      basic_attributes.each do |sym,attrib|
         @char_pts_cost += attrib.cost
       end
     end
 
     def calculate_secondary_attributes
-      @secondary_attributes.each do |sym,attrib|
+      secondary_attributes.each do |sym,attrib|
         unless sym == :dodge
           @char_pts_cost += attrib.cost
         end
