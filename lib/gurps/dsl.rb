@@ -15,16 +15,16 @@ module GURPS
 
     # Domain Specific Language for Character Creation
 
-    def self.make &block
-      @character = CharacterDSLProxy.new
+    def self.make name, &block
+      @character = CharacterDSLProxy.new { name: name }
       @character.instance_eval(&block)
       @character
     end
 
   end
 
-  def self.character &block
-    Characters.make &block
+  def self.character name, &block
+    Characters.make name, &block
   end
 
 end
