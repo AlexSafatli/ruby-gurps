@@ -102,6 +102,7 @@ module GURPS
     end
 
     def calculate_costs
+      @char_pts_cost = 0
       calculate_basic_attributes
       calculate_secondary_attributes
       calculate_skills
